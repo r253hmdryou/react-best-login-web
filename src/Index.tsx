@@ -2,8 +2,11 @@ import React from "react";
 import {createRoot} from "react-dom/client";
 import { App } from "@/App";
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-const root = createRoot(document.getElementById("root")!);
+const element = document.getElementById("root");
+if(element === null) {
+	throw new Error("Root element not found");
+}
+const root = createRoot(element);
 root.render(
 	<React.StrictMode>
 		<App />

@@ -1,0 +1,7 @@
+import { ColorTheme } from "./emotion";
+
+export const lightTheme: ColorTheme = {
+	primary: "#00AEE0",
+	secondary: "#4784BF",
+	error: "#DE6641",
+};
