@@ -1,6 +1,7 @@
 import React from "react";
 import {createRoot} from "react-dom/client";
 import { App } from "@/App";
+import { Context } from "./Context";
 
 const element = document.getElementById("root");
 if(element === null) {
@@ -9,6 +10,8 @@ if(element === null) {
 const root = createRoot(element);
 root.render(
 	<React.StrictMode>
-		<App />
+		<Context>
+			<App />
+		</Context>
 	</React.StrictMode>,
 );

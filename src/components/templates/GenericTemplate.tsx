@@ -6,11 +6,11 @@ type Props = {
 
 export function GenericTemplate(props: Props) {
 	return (
-		<div>
+		<>
 			<Header />
 			<main>
 				{props.children}
 			</main>
-		</div>
+		</>
 	);
 }
