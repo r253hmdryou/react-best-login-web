@@ -1,29 +1,69 @@
-import {Link} from "react-router-dom";
+import React from "react";
+import {Link, useNavigate} from "react-router-dom";
 import {css, Theme} from "@emotion/react";
+import { Api } from "@/api";
+import { UserDispatchContext, UserStateContext } from "@/Context";
 
 export function Header() {
+	const userStateContext = React.useContext(UserStateContext);
+	const isLoggedIn = userStateContext !== null && userStateContext !== false;
+
 	return (
 		<header>
 			<nav css={style.nav}>
 				<ul css={style.list}>
-					<li css={style.listItem}>
-						<Link to="/" css={style.link}>
-						Home
-						</Link>
-					</li>
-					<li css={style.listItem}>
-						<Link to="/about" css={style.link}>
-						About
-						</Link>
-					</li>
-					<li css={style.listItem}>
-						<Link to="/login" css={style.link}>
-						Login
-						</Link>
-					</li>
+					<HeaderLink to="/" text="Home" />
+					<HeaderLink to="/about" text="About" />
+					{isLoggedIn || <HeaderLink to="/login" text="Login" />}
+					{isLoggedIn && <Logout />}
 				</ul>
 			</nav>
 		</header>
+	);
+}
+
+type LinkProps = {
+	to: string;
+	text: string;
+}
+
+function HeaderLink(props: LinkProps) {
+	return (
+		<li css={style.listItem}>
+			<Link to={props.to} css={style.link}>
+				{props.text}
+			</Link>
+		</li>
+	);
+}
+
+function Logout() {
+	const userDispatch = React.useContext(UserDispatchContext);
+	const navigate = useNavigate();
+
+	const logout = () => {
+		const api = new Api;
+		api.logout.logout({
+			credentials: "include",
+			headers: {
+				"X-Requested-With": "XMLHttpRequest",
+			},
+		}).then((response) => {
+			console.log(response);
+			userDispatch({
+				type: "logout",
+			});
+			navigate("/", {replace: true});
+		}).catch((error) => {
+			console.warn(error);
+		});
+	};
+	return (
+		<li css={style.listItem}>
+			<div css={[style.link, style.logout]} onClick={logout}>
+				Logout
+			</div>
+		</li>
 	);
 }
 
@@ -64,5 +104,8 @@ const style = {
 		font-size: ${theme.typography.fontSize}px;
 		text-align: center;
 		text-decoration: none;
+	`,
+	logout: css`
+		cursor: pointer;
 	`,
 };

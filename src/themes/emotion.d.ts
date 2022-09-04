@@ -11,6 +11,9 @@ export interface ColorTheme {
 	primary: string
 	secondary: string
 	error: string
+	paper: {
+		backgroundColor: string
+	},
 }
 
 interface Typography {

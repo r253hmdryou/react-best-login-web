@@ -38,6 +38,11 @@ module.exports = {
 		},
 		open: false,
 		port: 4000,
+		client: {
+			logging: "info",
+		},
+		compress: false,
+		historyApiFallback: true,
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
